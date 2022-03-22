@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>Plant Species Detector</title>
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+
+<style>
+body{margin:0;padding:0;background-color:#d9d9d9;background-image:url('{{ url_for('static', filename='nature.jpg') }}');}
+#header{width:100%;height:70px;background-color:#00994d;}
+#mainheader{width:1000px;height:70px;background-color:#00994d;margin:auto;}
+#main{width:1000px;height:700px;margin:60px auto;background-color:#f2f2f2;padding-top:50px;}
+#applogo{font-family:Aladin;font-weight:bolder;color:white;font-size:30px;line-height:70px;float:left;}
+#about{width:56px;height:56px;border:4px solid white;border-radius:56px;color:white;font-size:20px;float:right;margin-top:2px;font-weight:bold;}
+#form{width:200px;height:200px;border-radius:200px;margin:20px auto;background-color:yellow;}
+#file{width:300px;padding:10px;}
+#submit{width:200px;}
+#msgbox{width:300px;height:auto;background-color:yellow;margin:50px auto;}
+#file-input{display:none;}
+#sub{width:200px;padding:13px;background-color:#008080;border:none;color:white;font-weight:bold;font-size:25px;}
+
+
+@media (min-width: 300px) and (max-width: 500px) {
+    
+#header{width:100%;height:70px;background-color:#00994d;}
+#mainheader{width:100%;height:70px;background-color:#00994d;margin:auto;}
+#main{width:85%;height:auto;margin:90px auto;background-color:#f2f2f2;padding-top:40px;border-radius:10px;padding-bottom:16px;}
+#applogo{font-family:Aladin;font-weight:bolder;color:white;font-size:23px;line-height:70px;float:left;margin-left:5px;}
+#about{width:54px;height:54px;border:3px solid white;border-radius:54px;color:white;font-size:17px;float:right;margin-top:4.5px;margin-right:2px;}
+#form{width:140px;height:140px;border-radius:140px;margin:0px auto;}
+#file{width:300px;padding:10px;}
+#submit{width:200px;background-color:pink;}
+#msgbox{width:300px;height:auto;background-color:yellow;margin:60px auto;}
+#file-input{display:none;}
+#sub{width:150px;padding:10px;background-color:#008080;border:none;color:white;font-weight:bold;font-size:23px;margin-right:75px;}
+}
+
+
+</style>
+</head>
+
+<body>
+<div id="header">
+<div id="mainheader">
+<a href="https://shmpl.co.in" id="applogo" style="text-decoration:none;"><i>Plant Species Detection</i></a>
+<div id="about"><a style="line-height:50px;margin:2px;text-decoration:none;color:white;" href="https://shmpl.co.in/about.html">About</a></div>
+</div>
+</div>
+<div id ="main">
+
+
+
+
+<form id="form" action="/" method="post" enctype="multipart/form-data">
+ 
+ 
+<label for="file-input">
+<img id="previewimage" src="{{ url_for('static', filename='camicon.gif!w340') }}" style="width:100%;height:100%;border-radius:100%;"/>
+</label>
+<input name="imgfile" id="file-input" type="file" onchange="document.getElementById('previewimage').src = window.URL.createObjectURL(this.files[0])"  accept="image/*" required="required"/><br><br>
+<p text-align="center">
+<input type="submit" value="Get Result" name="submit" id="sub"></p>
+</form>
+
+
+
+<script>
+
+// ----- On render -----
+$(function() {
+
+  $('#profile').addClass('dragging').removeClass('dragging');
+});
+
+$('#profile').on('dragover', function() {
+  $('#profile').addClass('dragging')
+}).on('dragleave', function() {
+  $('#profile').removeClass('dragging')
+}).on('drop', function(e) {
+  $('#profile').removeClass('dragging hasImage');
+
+  if (e.originalEvent) {
+    var file = e.originalEvent.dataTransfer.files[0];
+    console.log(file);
+
+    var reader = new FileReader();
+
+    //attach event handlers here...
+
+    reader.readAsDataURL(file);
+    reader.onload = function(e) {
+      console.log(reader.result);
+      $('#profile').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
+
+    }
+
+  }
+})
+$('#profile').on('click', function(e) {
+  console.log('clicked')
+  $('#mediaFile').click();
+});
+window.addEventListener("dragover", function(e) {
+  e = e || event;
+  e.preventDefault();
+}, false);
+window.addEventListener("drop", function(e) {
+  e = e || event;
+  e.preventDefault();
+}, false);
+$('#mediaFile').change(function(e) {
+
+  var input = e.target;
+  if (input.files && input.files[0]) {
+    var file = input.files[0];
+
+    var reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onload = function(e) {
+      console.log(reader.result);
+      $('#profile').css('background-image', 'url(' + reader.result + ')').addClass('hasImage');
+    }
+  }
+})
+
+
+
+
+</script>
+
+
+
+<br><br>
+<div id="msgbox"></div>
+</div>
+
+
+
+
+</body>
+
+
+
+
+</html>
